@@ -13,7 +13,8 @@ import {
     getDatabase,
     ref,
     set,
-    get
+    get,
+    push
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
@@ -73,4 +74,44 @@ window.firebaseGetLeaderboard = async function () {
     data.sort((a, b) => b.score - a.score);
 
     return data;
+};
+
+
+/*
+    Simpan pesan ulang tahun baru.
+    Pakai push() supaya tiap pesan dapat
+    ID unik sendiri (bukan nge-replace
+    kayak skor).
+*/
+window.firebaseSaveMessage = async function (name, message) {
+
+    const newMessageRef = push(ref(db, "messages"));
+
+    await set(newMessageRef, {
+        name: name,
+        message: message,
+        date: new Date().toISOString()
+    });
+
+};
+
+
+/*
+    Ambil semua pesan dari Firebase,
+    diurutin dari yang paling baru.
+*/
+window.firebaseGetMessages = async function () {
+
+    const snapshot = await get(ref(db, "messages"));
+
+    if (!snapshot.exists()) {
+        return [];
+    }
+
+    const data = Object.values(snapshot.val());
+
+    data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    return data;
+
 };
