@@ -570,7 +570,7 @@ function handleAnswer(answer, selectedButton) {
    FINISH QUIZ
 ========================= */
 
-function finishQuiz() {
+async function finishQuiz() {
 
     /*
         Untuk sementara score dihitung dari
@@ -599,7 +599,7 @@ function finishQuiz() {
         .textContent = result.description;
 
 
-    saveLeaderboard(
+    await saveLeaderboard(
         guestName,
         percentage
     );
@@ -682,59 +682,65 @@ function getResultTitle(score) {
 
 /* =========================
    LEADERBOARD
+   (sekarang pakai Firebase, bukan
+   localStorage, supaya semua orang
+   yang isi quiz masuk ke leaderboard
+   yang sama)
 ========================= */
 
-function saveLeaderboard(name, score) {
+async function saveLeaderboard(name, score) {
 
-    const leaderboard =
-        JSON.parse(
-            localStorage.getItem("birthdayLeaderboard")
-        ) || [];
+    try {
 
+        await window.firebaseSaveScore(name, score);
 
-    /*
-        Kalau orang yang sama mengerjakan lagi,
-        hapus score lamanya.
-    */
+    } catch (error) {
 
-    const filtered =
-        leaderboard.filter(
-            person => person.name !== name
-        );
+        console.error("Gagal simpan skor ke Firebase:", error);
 
+        alert("Waduh, skor gagal kesimpen. Coba cek koneksi internet ya 😭");
 
-    filtered.push({
-
-        name: name,
-
-        score: score
-
-    });
-
-
-    filtered.sort(
-        (a, b) => b.score - a.score
-    );
-
-
-    localStorage.setItem(
-        "birthdayLeaderboard",
-        JSON.stringify(filtered)
-    );
+    }
 
 }
 
 
-function renderLeaderboard() {
-
-    const leaderboard =
-        JSON.parse(
-            localStorage.getItem("birthdayLeaderboard")
-        ) || [];
-
+async function renderLeaderboard() {
 
     const list =
         document.getElementById("leaderboardList");
+
+
+    list.innerHTML = `
+        <div class="rank-item">
+            <div class="rank-name">
+                Lagi ambil data... ⏳
+            </div>
+        </div>
+    `;
+
+
+    let leaderboard = [];
+
+    try {
+
+        leaderboard = await window.firebaseGetLeaderboard();
+
+    } catch (error) {
+
+        console.error("Gagal ambil leaderboard dari Firebase:", error);
+
+        list.innerHTML = `
+            <div class="rank-item">
+                <div class="rank-name">
+                    Gagal ambil data leaderboard 😭 coba refresh halaman
+                </div>
+            </div>
+        `;
+
+        return;
+
+    }
 
 
     list.innerHTML = "";
