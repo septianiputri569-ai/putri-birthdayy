@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semua Pesan 💌</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .admin-wrap {
+            width: min(700px, 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .admin-wrap h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .message-item {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 18px;
+            padding: 20px 24px;
+            margin-bottom: 14px;
+            box-shadow: 0 5px 20px rgba(143, 82, 104, 0.06);
+            text-align: left;
+        }
+
+        .message-item .msg-name {
+            font-weight: 700;
+            color: var(--mauve);
+            margin-bottom: 6px;
+        }
+
+        .message-item .msg-text {
+            color: var(--dark);
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .message-item .msg-date {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #aa8d97;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="decor decor-1">✦</div>
+    <div class="decor decor-2">♡</div>
+    <div class="decor decor-3">✧</div>
+
+    <section class="screen active">
+
+        <div class="admin-wrap">
+
+            <h2>Semua Pesan Ulang Tahun 💌</h2>
+
+            <div id="messageList">
+                <div class="message-item">
+                    <div class="msg-name">Lagi ambil data... ⏳</div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <script type="module" src="firebase-init.js"></script>
+
+    <script>
+        async function loadMessages() {
+
+            const list = document.getElementById("messageList");
+
+            // Tunggu sebentar supaya firebase-init.js (module) selesai load
+            let tries = 0;
+            while (!window.firebaseGetMessages && tries < 50) {
+                await new Promise(r => setTimeout(r, 100));
+                tries++;
+            }
+
+            if (!window.firebaseGetMessages) {
+                list.innerHTML = `<div class="message-item"><div class="msg-name">Gagal konek ke Firebase 😭</div></div>`;
+                return;
+            }
+
+            try {
+
+                const messages = await window.firebaseGetMessages();
+
+                if (messages.length === 0) {
+                    list.innerHTML = `<div class="message-item"><div class="msg-name">Belum ada pesan masuk 😭</div></div>`;
+                    return;
+                }
+
+                list.innerHTML = "";
+
+                messages.forEach(item => {
+
+                    const div = document.createElement("div");
+                    div.className = "message-item";
+
+                    const dateStr = new Date(item.date).toLocaleString("id-ID");
+
+                    div.innerHTML = `
+                        <div class="msg-name">${item.name}</div>
+                        <div class="msg-text">${item.message}</div>
+                        <div class="msg-date">${dateStr}</div>
+                    `;
+
+                    list.appendChild(div);
+
+                });
+
+            } catch (error) {
+
+                console.error(error);
+
+                list.innerHTML = `<div class="message-item"><div class="msg-name">Gagal ambil pesan 😭</div></div>`;
+
+            }
+
+        }
+
+        loadMessages();
+    </script>
+
+</body>
+</html>
