@@ -161,7 +161,7 @@ messageInput.addEventListener("input", () => {
 });
 
 
-sendMessageBtn.addEventListener("click", () => {
+sendMessageBtn.addEventListener("click", async () => {
 
     const message = messageInput.value.trim();
 
@@ -173,35 +173,27 @@ sendMessageBtn.addEventListener("click", () => {
     }
 
 
-    /*
-        Untuk sekarang pesan hanya disimpan
-        di browser.
-
-        Nanti kita sambungkan ke database.
-    */
-
-    const messages =
-        JSON.parse(localStorage.getItem("birthdayMessages")) || [];
+    sendMessageBtn.disabled = true;
+    sendMessageBtn.textContent = "MENGIRIM...";
 
 
-    messages.push({
+    try {
 
-        name: guestName,
+        await window.firebaseSaveMessage(guestName, message);
 
-        message: message,
+        successModal.classList.add("show");
 
-        date: new Date().toLocaleString("id-ID")
+    } catch (error) {
 
-    });
+        console.error("Gagal simpan pesan ke Firebase:", error);
 
+        alert("Waduh, pesan gagal terkirim. Coba cek koneksi internet ya 😭");
 
-    localStorage.setItem(
-        "birthdayMessages",
-        JSON.stringify(messages)
-    );
+    }
 
 
-    successModal.classList.add("show");
+    sendMessageBtn.disabled = false;
+    sendMessageBtn.textContent = "SEND MY MESSAGE 💗";
 
 });
 
