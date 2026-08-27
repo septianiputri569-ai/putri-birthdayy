@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Putri's Birthday 🎂</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         BACKGROUND DECORATION
+    ========================== -->
+
+    <div class="decor decor-1">✦</div>
+    <div class="decor decor-2">♡</div>
+    <div class="decor decor-3">✧</div>
+    <div class="decor decor-4">🎀</div>
+    <div class="decor decor-5">✦</div>
+
+
+    <!-- =========================
+         OPENING SCREEN
+    ========================== -->
+
+    <section id="welcomeScreen" class="screen active">
+
+        <div class="welcome-content">
+
+            <p class="small-text">HEY, YOU! 👀</p>
+
+            <h1>
+                PUTRI'S<br>
+                <span>BIRTHDAY</span>
+            </h1>
+
+            <p class="welcome-subtitle">
+                You're invited to a little birthday corner ♡
+            </p>
+
+            <button id="enterBtn" class="main-btn">
+                ENTER THE PARTY →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         NAME SCREEN
+    ========================== -->
+
+    <section id="nameScreen" class="screen">
+
+        <div class="card">
+
+            <div class="icon">💌</div>
+
+            <p class="small-text">BEFORE YOU ENTER...</p>
+
+            <h2>What's your name?</h2>
+
+            <p class="description">
+                So Putri knows who's stopping by 👀
+            </p>
+
+            <input
+                type="text"
+                id="nameInput"
+                placeholder="Type your name..."
+                maxlength="30"
+            >
+
+            <button id="continueBtn" class="main-btn">
+                CONTINUE →
+            </button>
+
+            <p id="nameError" class="error-message"></p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         MAIN BIRTHDAY HUB
+    ========================== -->
+
+    <section id="hubScreen" class="screen">
+
+        <div class="hub-container">
+
+            <p class="small-text">WELCOME, <span id="guestName">FRIEND</span>! 💗</p>
+
+            <h2>What do you want to do?</h2>
+
+            <p class="description">
+                Since you're already here... don't leave without doing these 😭
+            </p>
+
+
+            <!-- MENU CARDS -->
+
+            <div class="menu-grid">
+
+                <!-- Birthday Message -->
+                <button class="menu-card" id="messageBtn">
+
+                    <div class="menu-icon">💌</div>
+
+                    <h3>Leave a Message</h3>
+
+                    <p>
+                        Say something to the birthday girl.
+                    </p>
+
+                    <span>OPEN →</span>
+
+                </button>
+
+
+                <!-- Quiz -->
+                <button class="menu-card" id="quizBtn">
+
+                    <div class="menu-icon">🧠</div>
+
+                    <h3>How Well Do You Know Putri?</h3>
+
+                    <p>
+                        Let's see if you're actually her friend.
+                    </p>
+
+                    <span>TAKE QUIZ →</span>
+
+                </button>
+
+
+                <!-- Leaderboard -->
+                <button class="menu-card" id="leaderboardBtn">
+
+                    <div class="menu-icon">🏆</div>
+
+                    <h3>Birthday Leaderboard</h3>
+
+                    <p>
+                        Who knows Putri best?
+                    </p>
+
+                    <span>SEE RANKING →</span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         MESSAGE SCREEN
+    ========================== -->
+
+    <section id="messageScreen" class="screen">
+
+        <div class="card message-card">
+
+            <button class="back-btn" id="messageBackBtn">
+                ← Back
+            </button>
+
+            <div class="icon">💌</div>
+
+            <p class="small-text">A LITTLE MESSAGE FOR PUTRI</p>
+
+            <h2>Leave something behind ♡</h2>
+
+            <p class="description">
+                Write anything you want to say to Putri.
+            </p>
+
+            <textarea
+                id="messageInput"
+                placeholder="Happy birthday, Putri..."
+                maxlength="500"
+            ></textarea>
+
+            <div class="char-count">
+                <span id="charCount">0</span>/500
+            </div>
+
+            <button id="sendMessageBtn" class="main-btn">
+                SEND MY MESSAGE 💗
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         QUIZ SCREEN
+    ========================== -->
+
+    <section id="quizScreen" class="screen">
+
+        <div class="quiz-container">
+
+            <button class="back-btn" id="quizBackBtn">
+                ← Back
+            </button>
+
+            <div class="quiz-header">
+
+                <p id="questionNumber">
+                    QUESTION 01 / 15
+                </p>
+
+                <div class="progress-bar">
+                    <div id="progressFill"></div>
+                </div>
+
+            </div>
+
+
+            <div class="quiz-card">
+
+                <p class="quiz-category">
+                    LET'S SEE...
+                </p>
+
+                <h2 id="questionText">
+                    Question goes here
+                </h2>
+
+                <div id="answersContainer" class="answers-container">
+                    <!-- Jawaban dibuat lewat JavaScript -->
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         QUIZ RESULT
+    ========================== -->
+
+    <section id="resultScreen" class="screen">
+
+        <div class="card result-card">
+
+            <div class="result-icon">
+                🏆
+            </div>
+
+            <p class="small-text">
+                YOUR PUTRI SCORE
+            </p>
+
+            <h1>
+                <span id="scoreValue">0</span>/100
+            </h1>
+
+            <div class="result-title" id="resultTitle">
+                FRIEND
+            </div>
+
+            <p id="resultDescription" class="description">
+                Result description...
+            </p>
+
+            <button id="leaderboardFromResultBtn" class="main-btn">
+                SEE LEADERBOARD 🏆
+            </button>
+
+            <button id="hubFromResultBtn" class="secondary-btn">
+                BACK TO BIRTHDAY HUB
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         LEADERBOARD SCREEN
+    ========================== -->
+
+    <section id="leaderboardScreen" class="screen">
+
+        <div class="leaderboard-container">
+
+            <button class="back-btn" id="leaderboardBackBtn">
+                ← Back
+            </button>
+
+            <p class="small-text">
+                WHO KNOWS PUTRI BEST? 👀
+            </p>
+
+            <h2>Birthday Leaderboard</h2>
+
+            <p class="description">
+                Let's see who actually knows Putri 😭
+            </p>
+
+
+            <!-- TOP 3 -->
+
+            <div class="podium">
+
+                <div class="podium-item second">
+                    <div class="podium-avatar">🥈</div>
+                    <h3 id="secondName">---</h3>
+                    <p id="secondScore">0</p>
+                </div>
+
+                <div class="podium-item first">
+                    <div class="podium-avatar">👑</div>
+                    <h3 id="firstName">---</h3>
+                    <p id="firstScore">0</p>
+                </div>
+
+                <div class="podium-item third">
+                    <div class="podium-avatar">🥉</div>
+                    <h3 id="thirdName">---</h3>
+                    <p id="thirdScore">0</p>
+                </div>
+
+            </div>
+
+
+            <!-- FULL RANKING -->
+
+            <div id="leaderboardList" class="leaderboard-list">
+                <!-- Ranking dibuat lewat JavaScript -->
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SUCCESS / MESSAGE MODAL
+    ========================== -->
+
+    <div id="successModal" class="modal">
+
+        <div class="modal-card">
+
+            <div class="modal-icon">
+                💌
+            </div>
+
+            <h2>Message Delivered!</h2>
+
+            <p>
+                Your little message has been sent to Putri ♡
+            </p>
+
+            <button id="modalCloseBtn" class="main-btn">
+                BACK TO PARTY
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script src="script.js"></script>
+
+</body>
+</html>
